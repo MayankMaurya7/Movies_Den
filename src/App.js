@@ -25,37 +25,37 @@ function App() {
     setSelected(undefined);
   };
 
-  // const debounce = function (fn, d) {
-  //   let timer;
-  //   return function () {
-  //     let context = this,
-  //       args = arguments;
-  //     console.log("timeout");
-  //     clearTimeout(timer);
-  //     console.log(timer);
-  //     timer = setTimeout(() => {
-  //       fn.apply(context, arguments);
-  //     }, d);
-  //     console.log(timer);
-  //   };
-  // };
-  // const betterFuntion = debounce(Handelkeypress, 1000);
-  const valueUpdate = (e) => {
-    setValue(e);
-  };
-  const debounce1 = function (fn, d) {
+  const debounce = function (fn, d) {
     let timer;
     return function () {
       let context = this,
         args = arguments;
+      console.log("timeout");
       clearTimeout(timer);
+      console.log(timer);
       timer = setTimeout(() => {
         fn.apply(context, arguments);
       }, d);
-      // console.log(timer);
+      console.log(timer);
     };
   };
-  const betterFuntion1 = debounce1(valueUpdate, 1500);
+  const betterFuntion = debounce(Handelkeypress, 1000);
+  // const valueUpdate = (e) => {
+  //   setValue(e);
+  // };
+  // const debounce1 = function (fn, d) {
+  //   let timer;
+  //   return function () {
+  //     let context = this,
+  //       args = arguments;
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       fn.apply(context, arguments);
+  //     }, d);
+  //     // console.log(timer);
+  //   };
+  // };
+  // const betterFuntion1 = debounce1(valueUpdate, 1500);
 
   return (
     <div className="App">
@@ -63,7 +63,7 @@ function App() {
         <h1>Movies Den</h1>
       </header>
       <main>
-        <Search setValue={betterFuntion1} keypress={Handelkeypress} />
+        <Search setValue={setValue} keypress={betterFuntion} />
 
         {show && show.Search !== undefined ? (
           <section className="results">
