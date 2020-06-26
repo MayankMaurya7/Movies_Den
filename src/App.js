@@ -1,6 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "./components/Search";
 import Popup from "./components/Popup";
+
+// https://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
+export function useDebouncedValue(input, time = 500) {
+  const [debouncedValue, setDebouncedValue] = useState(input);
+
+  // every time input value has changed - set interval before it's actually commited
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedValue(input);
+    }, time);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [input, time]);
+
+  return debouncedValue;
+}
 
 function App() {
   const [value, setValue] = useState(undefined);
@@ -9,12 +27,13 @@ function App() {
 
   const apiurl = "http://www.omdbapi.com/?apikey=66917c51&";
 
-  const Handelkeypress = (e) => {
+  const handleKeyPress = (e) => {
     console.log(value);
-    fetch(`${apiurl}s=${value}`)
-      .then((res) => res.json())
-      .then((res) => setShow(res))
-      .catch((error) => console.log(error));
+    value &&
+      fetch(`${apiurl}s=${value}`)
+        .then((res) => res.json())
+        .then((res) => setShow(res))
+        .catch((error) => console.log(error));
   };
   const openPopup = (id) => {
     fetch(`${apiurl}i=${id}`)
@@ -25,37 +44,12 @@ function App() {
     setSelected(undefined);
   };
 
-  const debounce = function (fn, d) {
-    let timer;
-    return function () {
-      let context = this,
-        args = arguments;
-      console.log("timeout");
-      clearTimeout(timer);
-      console.log(timer);
-      timer = setTimeout(() => {
-        fn.apply(context, arguments);
-      }, d);
-      console.log(timer);
-    };
-  };
-  const betterFuntion = debounce(Handelkeypress, 1000);
-  // const valueUpdate = (e) => {
-  //   setValue(e);
-  // };
-  // const debounce1 = function (fn, d) {
-  //   let timer;
-  //   return function () {
-  //     let context = this,
-  //       args = arguments;
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       fn.apply(context, arguments);
-  //     }, d);
-  //     // console.log(timer);
-  //   };
-  // };
-  // const betterFuntion1 = debounce1(valueUpdate, 1500);
+  const debouncedValue = useDebouncedValue(value, 500); // this value will pick real time value, but will change it's result only when it's seattled for 500ms
+
+  useEffect(() => {
+    // this effect will be called on seattled values
+    handleKeyPress(debouncedValue);
+  }, [debouncedValue]);
 
   return (
     <div className="App">
@@ -63,7 +57,7 @@ function App() {
         <h1>Movies Den</h1>
       </header>
       <main>
-        <Search setValue={setValue} keypress={betterFuntion} />
+        <Search setValue={setValue} />
 
         {show && show.Search !== undefined ? (
           <section className="results">
