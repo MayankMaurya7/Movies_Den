@@ -10,12 +10,11 @@ function App() {
   const apiurl = "http://www.omdbapi.com/?apikey=66917c51&";
 
   const Handelkeypress = (e) => {
-    if (e.key === "Enter") {
-      console.log(value);
-      fetch(`${apiurl}s=${value}`)
-        .then((res) => res.json())
-        .then((res) => setShow(res));
-    }
+    console.log(value);
+    fetch(`${apiurl}s=${value}`)
+      .then((res) => res.json())
+      .then((res) => setShow(res))
+      .catch((error) => console.log(error));
   };
   const openPopup = (id) => {
     fetch(`${apiurl}i=${id}`)
@@ -25,14 +24,48 @@ function App() {
   const closePopup = () => {
     setSelected(undefined);
   };
+
+  // const debounce = function (fn, d) {
+  //   let timer;
+  //   return function () {
+  //     let context = this,
+  //       args = arguments;
+  //     console.log("timeout");
+  //     clearTimeout(timer);
+  //     console.log(timer);
+  //     timer = setTimeout(() => {
+  //       fn.apply(context, arguments);
+  //     }, d);
+  //     console.log(timer);
+  //   };
+  // };
+  // const betterFuntion = debounce(Handelkeypress, 1000);
+  const valueUpdate = (e) => {
+    setValue(e);
+  };
+  const debounce1 = function (fn, d) {
+    let timer;
+    return function () {
+      let context = this,
+        args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(context, arguments);
+      }, d);
+      // console.log(timer);
+    };
+  };
+  const betterFuntion1 = debounce1(valueUpdate, 1500);
+
   return (
     <div className="App">
       <header>
         <h1>Movies Den</h1>
       </header>
       <main>
-        <Search setValue={setValue} keypress={Handelkeypress} />
-        {show && (
+        <Search setValue={betterFuntion1} keypress={Handelkeypress} />
+
+        {show && show.Search !== undefined ? (
           <section className="results">
             {show.Search.map((e) => (
               <div
@@ -45,6 +78,8 @@ function App() {
               </div>
             ))}
           </section>
+        ) : (
+          <p>Please Try again</p>
         )}
         {selected && <Popup selected={selected} closePopup={closePopup} />}
       </main>
