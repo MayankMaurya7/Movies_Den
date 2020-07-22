@@ -26,7 +26,7 @@ function Search(props) {
         placeholder="Search movie here..."
         className="searchbox"
         onChange={(e) => props.setValue(e.target.value)}
-        onKeyUp={props.keypress}
+        // onKeyUp={props.keypress}
       />
     </div>
   );

@@ -1,0 +1,3 @@
+export const ADD_MOVIE = "ADD_MOVIE";
+export const ADD_TOFAV = "ADD_TOFAV";
+export const REMOVE_FROM_WATCHLIST = "REMOVE_FROM_WATCHLIST";

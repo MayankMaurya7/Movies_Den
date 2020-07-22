@@ -57,6 +57,8 @@ main {
 .result {
   width: 33.3333%;
   min-width: 240px;
+  min-height: 446px;
+  /* max-height: 446px; */
   padding: 5px;
   margin: 10px 0px;
   display: flex;
@@ -80,6 +82,7 @@ main {
   font-size: 20px;
   font-weight: 600;
   padding: 10px;
+  padding-bottom: 5px;
   background: #445565;
   flex: 1 1 100%;
   transition: 0.4s ease-out;
@@ -134,7 +137,7 @@ main {
   flex: 1 1 50%;
   padding: 15px;
 }
-.popup .content .close {
+.primaryButton {
   display: inline-block;
   padding: 15px 30px;
   font-size: 18px;
@@ -151,4 +154,59 @@ main {
 }
 .popup .content .close:hover {
   background: #223343;
+}
+
+.watchList {
+  display: inline-block;
+  padding: 15px 15px;
+  font-size: 18px;
+  font-weight: 700;
+
+  background-color: #fff;
+  color: #223343;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border: none;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: 0.4s ease-out;
+  position: absolute;
+  position: sticky;
+  top: 0;
+  left: 90%;
+  /* right: 130px; */
+}
+.watchList:hover {
+  background-color: #4484c4;
+  color: #fff;
+}
+.elementButtonsWrap {
+  margin: 0;
+  padding: 0;
+  align-self: center;
+  width: 100%;
+}
+.elementButtons {
+  background: #fff;
+  color: #445565;
+  width: 50%;
+  cursor: pointer;
+  transition: 0.4s ease-out;
+}
+
+.elementButtons:hover {
+  background-color: #4484c4;
+  color: #fff;
+}
+.RemovefromWatchList {
+  background: #fff;
+  color: #445565;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.4s ease-out;
+}
+.RemovefromWatchList:hover {
+  background-color: #4484c4;
+  color: #fff;
 }
